@@ -73,6 +73,20 @@ const addemployeeQu = [
         },
 ];
 
+let whichDeptQu = [
+    {
+        type: "list",
+        message: "Which Department?",
+        name: "department",
+        choices: [
+            "Sales",
+            "Engineering",
+            "Finance",
+            "Legal",
+        ] 
+    }
+]
+
 function whatToDo(){
     inquirer.prompt(firstquestion)
     .then(function(answer){
@@ -103,10 +117,18 @@ function viewAll(){
     });  
 };
 
-/* function viewByDept(){
-
+ function viewByDept(){
+    inquirer.prompt(whichDeptQu)
+    .then(function(data){
+    connection.query(query,'SELECT * FROM employee WHERE ?', {department: data.department}, function (err, res){
+        if (err) throw err;
+        console.table(res);
+        whatToDo();  
+        });
+    });
 };
 
+/*
 function addAnEmployee(){
     inquirer.prompt(addemployeeQu)
     .then(function(){
