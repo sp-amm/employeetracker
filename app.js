@@ -95,7 +95,8 @@ function whatToDo(){
 };
 
 function viewAll(){
-    connection.query("SELECT * FROM employee", function (err, res){
+    let query =  'SELECT * FROM employee LEFT JOIN roles ON (employee.roles_id = roles.id)';   
+    connection.query(query, function (err, res){
         if (err) throw err;
         console.table(res);
         whatToDo();
