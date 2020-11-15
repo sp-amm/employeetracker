@@ -91,8 +91,30 @@ let whichEmployeeToRemove = [
     {
         type: "input",
         name: "remove",
-        message: "View all employees and enter employee id of employee to be removed."
+        message: "View all employees and enter id of employee to be removed."
     },
+]
+
+let updateRoleQu = [
+    {
+        type: "input",
+        name: "updateId",
+        message: "Enter id of employee whose role needs to be updated."
+    },
+    {
+        type: "list",
+        message: "What is the employee's new role?",
+        name: "roleUpdate",
+        choices: [
+            "Sales Lead",
+            "Salespersons",
+            "Lead Engineer",
+            "Software Engineer",
+            "Accountant",
+            "Legal Team Lead",
+            "Lawyer",
+        ]
+        },
 ]
 
 function whatToDo(){
@@ -185,11 +207,33 @@ function removeAnEmployee(){
     });
 };
 
-/*function updateEmployeeRole(){
-
+function updateEmployeeRole(){
+    inquirer.prompt(updateRoleQu)
+    .then(function(data){
+        if(data.roleUpdate==="Sales Lead"){roleid = 1; deptid = 1
+        }else if(data.roleUpdate==="Salespersons"){roleid = 2; deptid = 1
+        }else if(data.roleUpdate==="Lead Engineer"){roleid = 3; deptid = 2
+        }else if(data.roleUpdate==="Software Engineer"){roleid = 4; deptid = 2
+        }else if(data.roleUpdate==="Accountant"){roleid = 5; deptid = 3  
+        }else if(data.roleUpdate==="Legal Team Lead"){roleid = 6; deptid = 4
+        }else if(data.roleUpdate==="Lawyer"){roleid = 7; deptid = 4};
+    connection.query("UPDATE employee SET ? WHERE ?", 
+    [{
+        roles_id: roleid,
+        department_id: deptid,
+    }, 
+    {
+        id: data.updateId,
+    }], 
+        function(err, res){
+        if (err) throw err;
+        console.log(res.affectedRows + " employee updated.\n"); 
+        whatToDo();
+        });
+    });
 };
 
-function updateEmployeeManager(){
+/*function updateEmployeeManager(){
 
 };
  */
