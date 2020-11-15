@@ -120,7 +120,11 @@ function viewAll(){
  function viewByDept(){
     inquirer.prompt(whichDeptQu)
     .then(function(data){
-    connection.query(query,'SELECT * FROM employee WHERE ?', {department: data.department}, function (err, res){
+        if(data.department==="Sales"){departmentid = 1
+        }else if(data.department==="Engineering"){departmentid = 2
+        }else if(data.department==="Finance"){departmentid = 3
+        }else if(data.department==="Legal"){departmentid = 4}
+    connection.query('SELECT * FROM employee WHERE ?', {department_id: departmentid}, function (err, res){
         if (err) throw err;
         console.table(res);
         whatToDo();  
