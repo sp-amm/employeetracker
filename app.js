@@ -87,6 +87,14 @@ let whichDeptQu = [
     }
 ]
 
+let whichEmployeeToRemove = [
+    {
+        type: "input",
+        name: "remove",
+        message: "View all employees and enter employee id of employee to be removed."
+    },
+]
+
 function whatToDo(){
     inquirer.prompt(firstquestion)
     .then(function(answer){
@@ -109,7 +117,7 @@ function whatToDo(){
 };
 
 function viewAll(){
-    let query =  'SELECT employee.first_name, employee.last_name, roles.title, roles.salary FROM employee LEFT JOIN roles ON (employee.roles_id = roles.id)';   
+    let query =  'SELECT employee.id, employee.first_name, employee.last_name, roles.title, roles.salary FROM employee LEFT JOIN roles ON (employee.roles_id = roles.id)';   
     connection.query(query, function (err, res){
         if (err) throw err;
         console.table(res);
@@ -146,8 +154,6 @@ function addAnEmployee(){
         }else if(data.role==="Accountant"){roleid = 5; deptid = 3  
         }else if(data.role==="Legal Team Lead"){roleid = 6; deptid = 4
         }else if(data.role==="Lawyer"){roleid = 7; deptid = 4};
-        console.log(roleid);
-        console.log(deptid);
     connection.query("INSERT INTO employee SET ?", 
     {
         first_name: data.firstname,
@@ -164,7 +170,19 @@ function addAnEmployee(){
 };
 
 function removeAnEmployee(){
-
+    inquirer.prompt(whichEmployeeToRemove)
+    .then(function(data){
+    
+    connection.query("DELETE FROM employee WHERE ?", 
+    {
+        id: data.remove,
+    }, 
+        function(err, res){
+        if (err) throw err;
+        console.log(res.affectedRows + " employee removed.\n"); 
+        whatToDo();
+        });
+    });
 };
 
 /*function updateEmployeeRole(){
