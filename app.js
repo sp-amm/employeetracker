@@ -1,16 +1,14 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require('console.table');
 
 var connection = mysql.createConnection({
   host: "localhost",
-
-  // Your port; if not 3306
+  // Port 3306
   port: 3306,
-
-  // Your username
+  // Username
   user: "root",
-
-  // Your password
+  // Password
   password: "1234",
   database: "employee2_db"
 });
@@ -18,16 +16,16 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err){return (console.log("Failed to connect to the database."))};
   console.log("connected as id " + connection.threadId);
-  afterConnection();
+  whatToDo();
 });
 
-function afterConnection() {
+/* function afterConnection() {
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) console.log("Failed to connect to the database.");
     console.log(res);
     connection.end();
   });
-}
+} */
 
 const firstquestion = [
     {
@@ -77,35 +75,42 @@ const addemployeeQu = [
 
 function whatToDo(){
     inquirer.prompt(firstquestion)
-    .then(function(data){
+    .then(function(answer){
         if(answer.todo ==="View all employees"){
             viewAll();
         }else if(answer.todo ==="View all employees by department"){
-            viewByDept()
+            viewByDept();
         }else if(answer.todo ==="View all employees by Manager"){
-            viewByManager()
+            viewByManager();
         }else if(answer.todo ==="Add Employee"){
-            addAnEmployee()
+            addAnEmployee();
         }else if(answer.todo ==="Remove Employee"){
-            removeAnEmployee()
+            removeAnEmployee();
         }else if(answer.todo ==="Update Employee Role"){
-            updateEmployeeRole()
+            updateEmployeeRole();
         }else if(answer.todo ==="Update Employee Manager"){
-            updateEmployeeManager()
+            updateEmployeeManager();
         };
     });
 };
 
 function viewAll(){
-
+    connection.query("SELECT * FROM employee", function (err, res){
+        if (err) throw err;
+        console.table(res);
+        whatToDo();
+    });  
 };
 
-function viewByDept(){
+/* function viewByDept(){
 
 };
 
 function addAnEmployee(){
+    inquirer.prompt(addemployeeQu)
+    .then(function(){
 
+    });
 };
 
 function removeAnEmployee(){
@@ -119,3 +124,4 @@ function updateEmployeeRole(){
 function updateEmployeeManager(){
 
 };
+ */
