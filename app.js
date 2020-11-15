@@ -2,13 +2,11 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require('console.table');
 
+//Connection code
 var connection = mysql.createConnection({
   host: "localhost",
-  // Port 3306
   port: 3306,
-  // Username
   user: "root",
-  // Password
   password: "1234",
   database: "employee2_db"
 });
@@ -19,14 +17,7 @@ connection.connect(function(err) {
   whatToDo();
 });
 
-/* function afterConnection() {
-  connection.query("SELECT * FROM products", function(err, res) {
-    if (err) console.log("Failed to connect to the database.");
-    console.log(res);
-    connection.end();
-  });
-} */
-
+//Question sets for Inquirer - called in functions below
 const firstquestion = [
     {
         type: "list",
@@ -117,6 +108,26 @@ let updateRoleQu = [
         },
 ]
 
+let updateManagerQu = [
+    {
+        type: "input",
+        name: "updateIdToChangeManager",
+        message: "Enter id of employee whose Manager needs to be updated."
+    },
+    {
+        type: "list",
+        message: "Which position now manages to employee?",
+        name: "managerUpdate",
+        choices: [
+            "Sales Lead",
+            "Lead Engineer",
+            "Accountant",
+            "Legal Team Lead",
+        ]
+        },
+]
+
+//Function to start to program - (calls other functions to execute commands)
 function whatToDo(){
     inquirer.prompt(firstquestion)
     .then(function(answer){
@@ -125,7 +136,7 @@ function whatToDo(){
         }else if(answer.todo ==="View all employees by department"){
             viewByDept();
         }else if(answer.todo ==="View all employees by Manager"){
-            viewByManager();
+            viewByDept();
         }else if(answer.todo ==="Add Employee"){
             addAnEmployee();
         }else if(answer.todo ==="Remove Employee"){
@@ -138,6 +149,7 @@ function whatToDo(){
     });
 };
 
+//function to display all employees
 function viewAll(){
     let query =  'SELECT employee.id, employee.first_name, employee.last_name, roles.title, roles.salary FROM employee LEFT JOIN roles ON (employee.roles_id = roles.id)';   
     connection.query(query, function (err, res){
@@ -147,6 +159,7 @@ function viewAll(){
     });  
 };
 
+//function to view employees by department
  function viewByDept(){
     inquirer.prompt(whichDeptQu)
     .then(function(data){
@@ -166,6 +179,7 @@ function viewAll(){
 };
 
 
+//function to add an employee
 function addAnEmployee(){
     inquirer.prompt(addemployeeQu)
     .then(function(data){
@@ -191,6 +205,7 @@ function addAnEmployee(){
     });
 };
 
+//function to remove employees
 function removeAnEmployee(){
     inquirer.prompt(whichEmployeeToRemove)
     .then(function(data){
@@ -207,6 +222,7 @@ function removeAnEmployee(){
     });
 };
 
+//function to update an employees role
 function updateEmployeeRole(){
     inquirer.prompt(updateRoleQu)
     .then(function(data){
@@ -233,7 +249,25 @@ function updateEmployeeRole(){
     });
 };
 
-/*function updateEmployeeManager(){
-
+function updateEmployeeManager(){
+inquirer.prompt(updateManagerQu)
+    .then(function(data){
+        if(data.managerUpdate==="Sales Lead"){deptid = 1
+        }else if(data.managerUpdate==="Lead Engineer"){deptid = 2
+        }else if(data.managerUpdate==="Accountant"){deptid = 3  
+        }else if(data.managerUpdate==="Legal Team Lead"){deptid = 4};
+    connection.query("UPDATE employee SET ? WHERE ?", 
+    [{
+        department_id: deptid,
+    }, 
+    {
+        id: data.updateIdToChangeManager,
+    }], 
+        function(err, res){
+        if (err) throw err;
+        console.log(res.affectedRows + " employee manager updated.\n"); 
+        whatToDo();
+        });
+    });
 };
- */
+ 
