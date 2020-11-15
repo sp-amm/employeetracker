@@ -124,23 +124,48 @@ function viewAll(){
         }else if(data.department==="Engineering"){departmentid = 2
         }else if(data.department==="Finance"){departmentid = 3
         }else if(data.department==="Legal"){departmentid = 4}
-    connection.query('SELECT * FROM employee WHERE ?', {department_id: departmentid}, function (err, res){
+    connection.query(
+        'SELECT * FROM employee WHERE ?', 
+        {department_id: departmentid}, 
+        function (err, res){
+            if (err) throw err;
+            console.table(res);
+            whatToDo();  
+            });
+    });
+};
+
+
+function addAnEmployee(){
+    inquirer.prompt(addemployeeQu)
+    .then(function(data){
+        if(data.role==="Sales Lead"){roleid = 1
+        }else if(data.role==="Salespersons"){roleid = 2
+        }else if(data.role==="Lead Engineer"){roleid = 3
+        }else if(data.role==="Software Engineer"){roleid = 4
+        }else if(data.role==="Accountant"){roleid = 5  
+        }else if(data.role==="Legal Team Lead"){roleid = 6
+        }else if(data.role==="Lawyer"){roleid = 7};
+        if(roleid=1||2){deptid = 1}
+        else if(roleid=3||4){deptid = 2}
+        else if(roleid=5){deptid = 3}
+        else if(roleid=6||7){deptid = 4};
+    connection.query("INSERT INTO employee SET ?", 
+    {
+        first_name: data.firstname,
+        last_name: data.lastname,
+        roles_id: roleid,
+        department_id: deptid,
+    }, 
+        function(err, res){
         if (err) throw err;
-        console.table(res);
-        whatToDo();  
+        console.log(res.affectedRows + " employee details entered.\n"); 
+        whatToDo();
         });
     });
 };
 
-/*
-function addAnEmployee(){
-    inquirer.prompt(addemployeeQu)
-    .then(function(){
-
-    });
-};
-
-function removeAnEmployee(){
+/*function removeAnEmployee(){
 
 };
 
