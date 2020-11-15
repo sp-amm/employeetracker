@@ -139,17 +139,15 @@ function viewAll(){
 function addAnEmployee(){
     inquirer.prompt(addemployeeQu)
     .then(function(data){
-        if(data.role==="Sales Lead"){roleid = 1
-        }else if(data.role==="Salespersons"){roleid = 2
-        }else if(data.role==="Lead Engineer"){roleid = 3
-        }else if(data.role==="Software Engineer"){roleid = 4
-        }else if(data.role==="Accountant"){roleid = 5  
-        }else if(data.role==="Legal Team Lead"){roleid = 6
-        }else if(data.role==="Lawyer"){roleid = 7};
-        if(roleid=1||2){deptid = 1}
-        else if(roleid=3||4){deptid = 2}
-        else if(roleid=5){deptid = 3}
-        else if(roleid=6||7){deptid = 4};
+        if(data.role==="Sales Lead"){roleid = 1; deptid = 1
+        }else if(data.role==="Salespersons"){roleid = 2; deptid = 1
+        }else if(data.role==="Lead Engineer"){roleid = 3; deptid = 2
+        }else if(data.role==="Software Engineer"){roleid = 4; deptid = 2
+        }else if(data.role==="Accountant"){roleid = 5; deptid = 3  
+        }else if(data.role==="Legal Team Lead"){roleid = 6; deptid = 4
+        }else if(data.role==="Lawyer"){roleid = 7; deptid = 4};
+        console.log(roleid);
+        console.log(deptid);
     connection.query("INSERT INTO employee SET ?", 
     {
         first_name: data.firstname,
@@ -165,11 +163,11 @@ function addAnEmployee(){
     });
 };
 
-/*function removeAnEmployee(){
+function removeAnEmployee(){
 
 };
 
-function updateEmployeeRole(){
+/*function updateEmployeeRole(){
 
 };
 
