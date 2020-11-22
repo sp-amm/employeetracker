@@ -1,12 +1,12 @@
 README.md                
 
-# E mployee Tracker
+# Employee Tracker
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## DESCRIPTION
 A CMS application for managing a company's employees using node, inquirier, and MySQL. The application displays employees name, role, department, salary and allows for role, department, delete employees.
 
-<img src=assets/images/>
+<img src=assets/demo.GIF>
 
 ## Table of Contents:
 
