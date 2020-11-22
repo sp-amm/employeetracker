@@ -6,7 +6,7 @@ README.md
 ## DESCRIPTION
 A CMS application for managing a company's employees using node, inquirier, and MySQL. The application displays employees name, role, department, salary and allows for role, department, delete employees.
 
-<img src=/assets/demo.GIF>
+<img src=assets/demo.gif>
 
 ## Table of Contents:
 
